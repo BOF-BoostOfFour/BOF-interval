@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -62,15 +62,15 @@ dependencies {
     implementation("androidx.compose.material3:material3")
 
     // navigation
-    implementation ("androidx.navigation:navigation-compose:2.7.2")
+    implementation("androidx.navigation:navigation-compose:2.7.2")
 
     // Compose ViewPager
     implementation("com.google.accompanist:accompanist-pager:0.20.0")
 
     // Room database
     implementation("androidx.room:room-runtime:2.5.2")
-    kapt("androidx.room:room-compiler:2.5.2")
     implementation("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.0")
 
     // Kotlin Coroutines and Flow
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
