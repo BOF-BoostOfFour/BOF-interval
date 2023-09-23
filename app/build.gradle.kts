@@ -2,11 +2,13 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    // hilt plugin.
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.bof.android.interval"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.bof.android.interval"
@@ -51,6 +53,8 @@ android {
 }
 
 dependencies {
+    // include other Module
+    implementation(project(":timer"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -62,7 +66,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
 
     // navigation
-    implementation("androidx.navigation:navigation-compose:2.7.2")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
 
     // Compose ViewPager
     implementation("com.google.accompanist:accompanist-pager:0.20.0")
@@ -76,6 +80,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+
+    // hilt dependency.
+    implementation("com.google.dagger:hilt-android:2.44")
+    ksp("com.google.dagger:hilt-android-compiler:2.44")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

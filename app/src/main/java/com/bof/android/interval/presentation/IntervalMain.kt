@@ -1,5 +1,7 @@
 package com.bof.android.interval.presentation
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,16 +21,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 /**
  * 인터벌 메인 화면의 전체 화면.
  */
 @Composable
 fun IntervalMainScreen(navController: NavController) {
+    val intervalViewModel: IntervalViewModel = viewModel()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
@@ -40,7 +46,7 @@ fun IntervalMainScreen(navController: NavController) {
         // todo 타이머 위치.
         Timer()
         // todo 타이머랑 버튼이 같이 만들어질 것 같으나, 테스트 용으로.
-        Buttons()
+        Buttons(intervalViewModel)
     }
 }
 
@@ -77,14 +83,22 @@ fun Timer() {
  * 테스트용 버튼 묶음.(나중에 필요 없을 예정)
  */
 @Composable
-fun Buttons() {
+fun Buttons(
+    viewModel: IntervalViewModel
+) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
         horizontalArrangement = Arrangement.Center
     ) {
-        IconButton(onClick = {}) {
+        IconButton(onClick = {
+            Toast.makeText(context, "message", Toast.LENGTH_LONG).show()
+            // todo for debug.
+            viewModel.createStopWatch(10000L)
+            viewModel.playStopWatch { Log.d("WATCH", "${viewModel.getCurTime()}") }
+        }) {
             Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "play")
         }
         IconButton(onClick = {}) {

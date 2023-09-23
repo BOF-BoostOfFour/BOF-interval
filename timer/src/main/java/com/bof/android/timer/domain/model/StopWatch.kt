@@ -7,7 +7,7 @@ import java.util.TimerTask
  * StopWatch: java util Timer 이용, 스탑 워치의 전체 로직을 담당.
  * @param elapsedTimeMs: 시작 할 초기화 시간(생성자 매개 변수).
  */
-class StopWatch(private val elapsedTimeMs: Long) {
+class StopWatch(private val elapsedTimeMs: Long): BOFTimer {
     //----------------------------------------------------------
     // Definition value.
     companion object {
@@ -19,7 +19,8 @@ class StopWatch(private val elapsedTimeMs: Long) {
     // instance variable.
     private val timer: Timer = Timer()
     // 현재 시각.
-    var currentTimeMs: Long = elapsedTimeMs
+
+    override var currentTimeMs: Long = elapsedTimeMs
 
     //----------------------------------------------------------
     // public interface.
@@ -27,7 +28,7 @@ class StopWatch(private val elapsedTimeMs: Long) {
      * 재생.
      * @param onTick: play 할 때, 한 번의 Tick 할 때 콜백.
      */
-    fun play(onTick: () -> Unit) {
+    override fun play(onTick: () -> Unit) {
         // 타이머 동작 정의.
         val timerTask = object: TimerTask() {
             override fun run() {
@@ -44,14 +45,14 @@ class StopWatch(private val elapsedTimeMs: Long) {
     /**
      * 일시 정지.
      */
-    fun pause() {
+    override fun pause() {
         timer.cancel()
     }
 
     /**
      * 정지
      */
-    fun stop() {
+    override fun stop() {
         currentTimeMs = 0L
         timer.cancel()
     }
@@ -59,7 +60,7 @@ class StopWatch(private val elapsedTimeMs: Long) {
     /**
      * 앞으로 감기
      */
-    fun fastForward() {
+    override fun fastForward() {
         currentTimeMs = 0L
         timer.cancel()
     }
@@ -67,7 +68,7 @@ class StopWatch(private val elapsedTimeMs: Long) {
     /**
      * 뒤로 감기
      */
-    fun rewind() {
+    override fun rewind() {
         currentTimeMs = elapsedTimeMs
         timer.cancel()
     }
@@ -75,15 +76,10 @@ class StopWatch(private val elapsedTimeMs: Long) {
     /**
      * reset
      */
-    fun reset() {
+    override fun reset() {
         stop()
         currentTimeMs = elapsedTimeMs
     }
-
-    /**
-     * currentTime
-     */
-    fun getCurrentTimeFormat(): String = formatTime(currentTimeMs)
 
     //----------------------------------------------------------
     // private sub method
